@@ -2,20 +2,23 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import Login from "./src/authentication/containers/Login";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  credits: {
+    color: "#DAD9D9",
+    textAlign: "center",
+    marginTop: "20%",
+    fontSize: 10
+  } 
+})
+
+export default function App() {
+  return (
+    <View>
+      <Login />
+      <StatusBar style="auto" />
+      <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
+    </View>
+  );
+};
