@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -7,7 +7,7 @@ import {
   StyleSheet
 } from "react-native";
 
-import LogoSvg from "../../assets/wazo-platform.svg";
+import LogoSvg from "../../assets/white-logo-vertical.svg";
 import BackSunset from "../../assets/back-sunset.svg";
 
 const styles = StyleSheet.create({
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     bottom: 0
   },
   main: {
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
     width: 400,
     height: 700,
     marginTop: 100,
@@ -34,21 +34,44 @@ const styles = StyleSheet.create({
   form: {
   },
   labels: {
-    textTransform: "uppercase"
+    textTransform: "uppercase",
+    color: "#fff"
   },
   inputs: {
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     borderStyle: "solid",
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: "#fff",
     height: 40,
-    width: 250,
-    marginBottom: 10
+    width: 300,
+    marginBottom: 30,
+    paddingLeft: 10
+  },
+  submit: {
+    backgroundColor: "#95CC39",
+    padding: 10,
+    width: 100,
+    alignItems: "center",
+    borderRadius: 15,
+    marginTop: 30,
+  },
+  submitText: {
+    color: "#000",
+    fontWeight: "bold",
+    fontSize: 20
   }
 })
 
 const Login = () => {
+  const [focusMail, setFocusMail] = useState(false);
+  const [focusPass, setFocusPass] = useState(false);
+  const [focusServ, setFocusServ] = useState(false);
+
+  const onFocus = () => {
+    
+  }
+
   return (
     <View style={styles.container}>
       <BackSunset style={styles.back}/>
@@ -56,14 +79,14 @@ const Login = () => {
           <LogoSvg style={styles.logo} width={300} height={300}/>
           <View style={styles.form}>
             <Text style={styles.labels}>user e-mail address</Text>
-            <TextInput style={styles.inputs} placeholder="miguel@wazo.io"/>
+            <TextInput style={styles.inputs} placeholder="miguel@wazo.io" placeholderTextColor="#DAD9D9"/>
             <Text style={styles.labels}>password</Text>
-            <TextInput style={styles.inputs} secureTextEntry={true} placeholder="****"/>
+            <TextInput style={styles.inputs} secureTextEntry={true} placeholder="****" placeholderTextColor="#DAD9D9"/>
             <Text style={styles.labels}>server domain name</Text>
-            <TextInput style={styles.inputs} placeholder="server.wazo.io"/>
+            <TextInput style={styles.inputs} placeholder="server.wazo.io" placeholderTextColor="#DAD9D9"/>
           </View>
-          <Pressable>
-            <Text>login</Text>
+          <Pressable style={styles.submit}>
+            <Text style={styles.submitText}>login</Text>
           </Pressable>
         </View>
     </View>
