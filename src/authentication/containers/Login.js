@@ -64,13 +64,6 @@ const styles = StyleSheet.create({
 })
 
 const Login = () => {
-  const [focusMail, setFocusMail] = useState(false);
-  const [focusPass, setFocusPass] = useState(false);
-  const [focusServ, setFocusServ] = useState(false);
-
-  const onFocus = () => {
-    
-  }
 
   return (
     <View style={styles.container}>
