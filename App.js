@@ -11,8 +11,9 @@ const styles = StyleSheet.create({
   },
   credits: {
     color: "#DAD9D9",
-    textAlign: "center",
-    marginTop: "20%",
+    position: "absolute",
+    bottom: 20,
+    left: 130,
     fontSize: 10
   } 
 })
