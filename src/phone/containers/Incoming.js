@@ -1,12 +1,9 @@
 import React from "react";
 import {
   View,
-  TextInput,
   Text,
   Pressable,
   StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
