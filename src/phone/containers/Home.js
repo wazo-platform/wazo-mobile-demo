@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   TextInput,
@@ -11,6 +11,8 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 import BackDay from "../../assets/back-day.svg";
+
+import Incoming from "./Incoming";
 
 const styles = StyleSheet.create({
   main: {
@@ -67,6 +69,7 @@ const Home = () => {
   return (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.main}>
+      <Incoming />
       <BackDay style={styles.back} />
       <View style={styles.container}>
         <Text style={styles.welcome}>Hello Miguel </Text>
