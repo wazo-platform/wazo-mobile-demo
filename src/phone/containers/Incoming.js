@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 
 const Incoming = () => {
   return (
-    <BlurView intensity={70} style={styles.modal} blurRadius={1}>
+    <BlurView intensity={70} style={styles.modal}>
       <Text style={styles.title}>
         Incoming call from Johnny
       </Text>

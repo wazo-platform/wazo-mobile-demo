@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import Login from "./src/authentication/containers/Login";
 import Home from "./src/phone/containers/Home";
+import Call from "./src/phone/containers/Call";
 
 const styles = StyleSheet.create({
   app: {
@@ -22,7 +23,8 @@ export default function App() {
   return (
     <View style={styles.app}>
       {/* <Login /> */}
-      <Home />
+      {/* <Home /> */}
+      <Call />
       <StatusBar style="auto" />
       <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
     </View>
