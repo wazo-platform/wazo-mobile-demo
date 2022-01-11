@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -14,29 +14,31 @@ import background from "../../assets/day.png";
 const actions = [
   {
     name: "add",
-    icon: <Ionicons name="add-outline" size={50}/>,
+    icon: <Ionicons name="add-outline" size={50}/>
   },
   {
     name: "hold",
     icon: <Ionicons name="play-outline" size={40}/>,
+    alt: <Ionicons name="pause-outline" size={50}/>
   },
   {
     name: "speaker",
-    icon: <Ionicons name="volume-high" size={40}/>,
+    icon: <Ionicons name="volume-high" size={40}/>
   },
   {
     name: "mute",
     icon: <Ionicons name="mic-outline" size={50}/>,
+    alt: <Ionicons name="mic-off-outline" size={50}/>
   },
   {
     name: "keys",
-    icon: <Ionicons name="apps-outline" size={40}/>,
+    icon: <Ionicons name="apps-outline" size={40}/>
   },
   {
     name: "transfer",
-    icon: <Ionicons name="arrow-forward" size={50}/>,
+    icon: <Ionicons name="arrow-forward" size={50}/>
   }
-]
+];
 
 const styles = StyleSheet.create({
   container: {
@@ -47,9 +49,18 @@ const styles = StyleSheet.create({
     zIndex: 100,
     alignItems: "center",
   },
+  info: {
+    alignItems: "center",
+    marginBottom: 35
+  },
   callee:{
-    fontSize: 30
-  }, 
+    fontSize: 30,
+    marginBottom: 25,
+    fontWeight: "bold"
+  },
+  timer: {
+    fontSize: 20
+  },
   action: {
     margin: 10,
     backgroundColor: "#fff",
@@ -75,14 +86,30 @@ const styles = StyleSheet.create({
     right: 16,
     bottom: 0
   }
-})
+});
 
 const Call = () => {
+  const [mute, setMute] = useState(false);
+  const [hold, setHold] = useState(false);
+  const [speaker, setSpeaker] = useState(false);
+
+  const handleActions = ( name ) => {
+    if (name === "mute") {
+      setMute(!mute);
+    } else if (name === "hold") {
+      setHold(!hold);
+    } else if (name === "speaker") {
+      setSpeaker(!speaker);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.calling}>
-        <Text style={styles.callee}>Johnny Monnay</Text>
-        <Text></Text>
+        <View style={styles.info}>
+          <Text style={styles.callee}>Johnny Monnay</Text>
+          <Text style={styles.timer}>03:14</Text>
+        </View>
         <FlatList
           data={actions}
           renderItem={({ item }) => (
