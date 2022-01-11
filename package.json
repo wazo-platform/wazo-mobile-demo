@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@wazo/sdk": "^0.37.24",
     "expo": "~43.0.2",
     "expo-blur": "~10.0.3",
     "expo-status-bar": "~1.1.0",

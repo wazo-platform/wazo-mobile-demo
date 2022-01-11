@@ -22,9 +22,9 @@ const styles = StyleSheet.create({
 export default function App() {
   return (
     <View style={styles.app}>
-      {/* <Login /> */}
+      <Login />
       {/* <Home /> */}
-      <Call />
+      {/* <Call /> */}
       <StatusBar style="auto" />
       <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
     </View>
