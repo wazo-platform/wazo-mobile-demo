@@ -1,32 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import Wazo from '@wazo/sdk/lib/simple';
 import { StyleSheet, Text, View } from 'react-native';
 
-import Login from "./src/authentication/containers/Login";
-import Home from "./src/phone/containers/Home";
-import Call from "./src/phone/containers/Call";
+import Login from './src/authentication/containers/Login';
+import Home from './src/phone/containers/Home';
+import Call from './src/phone/containers/Call';
 
 const styles = StyleSheet.create({
   app: {
     flex: 1
   },
   credits: {
-    color: "#DAD9D9",
-    position: "absolute",
+    color: '#DAD9D9',
+    position: 'absolute',
     bottom: 20,
     left: 130,
     fontSize: 10
   } 
-})
+});
 
-export default function App() {
+const App = () => {
+  // const session = Wazo.domain.Session;
+  // à stocker dans un state
+
   return (
     <View style={styles.app}>
       <Login />
       {/* <Home /> */}
       {/* <Call /> */}
-      <StatusBar style="auto" />
+      <StatusBar style='auto' />
       <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
     </View>
   );
 };
+
+export default App;

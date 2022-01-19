@@ -1,45 +1,44 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Text,
   Pressable,
   StyleSheet,
-} from "react-native";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
+} from 'react-native';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
   modal: {
-    position: "absolute",
+    position: 'absolute',
     zIndex: 50,
     top: 0,
     paddingTop: 50,
-    width: "100%",
-    alignItems: "center"
+    width: '100%',
+    alignItems: 'center'
   },
   title: {
     fontSize: 20,
   },
   buttons: {
-    display: "flex",
-    flexDirection: "row"
+    display: 'flex',
+    flexDirection: 'row'
   },
   button: {
     width: 50,
     height: 50,
-    backgroundColor: "#95CC39",
+    backgroundColor: '#95CC39',
     borderRadius: 50,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     margin: 10
   },
   reject: {
     width: 50,
     height: 50,
-    backgroundColor: "#FA3535",
+    backgroundColor: '#FA3535',
     borderRadius: 50,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     margin: 10
   }
 });
@@ -52,13 +51,13 @@ const Incoming = () => {
       </Text>
       <View style={styles.buttons}>
         <Pressable style={styles.button}>
-          <Ionicons size={30} color="#fff" name="call" />
+          <Ionicons size={30} color='#fff' name='call' />
         </Pressable>
         <Pressable style={styles.button}>
-          <Ionicons size={30} color="#fff" name="videocam" />
+          <Ionicons size={30} color='#fff' name='videocam' />
         </Pressable>
         <Pressable style={styles.reject}>
-          <MaterialCommunityIcons size={30} color="#fff" name="phone-hangup" />
+          <MaterialCommunityIcons size={30} color='#fff' name='phone-hangup' />
         </Pressable>
       </View>
     </BlurView>
