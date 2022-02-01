@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import * as SecureStore from 'expo-secure-store';
 import {
   View,
   TextInput,
@@ -10,7 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { ReactComponent as BackDay } from '../../assets/back-day.svg';
+import BackDay from '../../assets/back-day.svg';
 
 import Incoming from './Incoming';
 
@@ -66,13 +67,25 @@ const styles = StyleSheet.create({
 });
 
 const Home = () => {
+  const [name, setName] = useState('');
+
+  const getName = async () => {
+    const userName = await SecureStore.getItemAsync('firstname');
+    setName(userName)
+    console.log(name);
+  } 
+
+  useEffect(() => {
+    getName();
+  });
+
   return (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.main}>
-      <Incoming />
+      {/* <Incoming /> */}
       <BackDay style={styles.back} />
       <View style={styles.container}>
-        <Text style={styles.welcome}>Hello Miguel </Text>
+        <Text style={styles.welcome}>Hello {name}</Text>
         <TextInput style={styles.input} keyboardType='numeric' placeholderTextColor='#DAD9D9' placeholder='Type a number' />
         <View style={styles.buttons}>
           <Pressable style={styles.button}>

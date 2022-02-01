@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
+import * as SecureStore from 'expo-secure-store';
 import Wazo from '@wazo/sdk/lib/simple';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -21,18 +22,23 @@ const styles = StyleSheet.create({
 });
 
 const App = () => {
-  // const session = Wazo.domain.Session;
-  // à stocker dans un state
+  const [logged, setLogged] = useState(false);
 
-  return (
-    <View style={styles.app}>
-      <Login />
-      {/* <Home /> */}
-      {/* <Call /> */}
-      <StatusBar style='auto' />
-      <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
-    </View>
-  );
+  if (logged === false) {
+    return (
+      <View style={styles.app}>
+        <Login handleLogin={setLogged} />
+        <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
+      </View>
+    );
+  } else if (logged === true) {
+    return (
+      <View style={styles.app}>
+        <Home />
+        <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
+      </View>
+    );
+  }; 
 };
 
 export default App;

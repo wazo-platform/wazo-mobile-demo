@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextInput, Text, Pressable, StyleSheet, View } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+import { TextInput, Text, Pressable, StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 import Wazo from '@wazo/sdk/lib/simple';
 
 import LogoSvg from '../../assets/white-logo-vertical.svg';
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
     width: 300,
     marginBottom: 30,
     paddingLeft: 10,
+    color: '#fff'
   },
   submit: {
     backgroundColor: '#95CC39',
@@ -59,32 +61,40 @@ const styles = StyleSheet.create({
   },
 });
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [server, setServer] = useState('');
+const Login = ({ handleLogin }) => {
+  const [email, setEmail] = useState('miguel@wazo.io');
+  const [password, setPassword] = useState('secret');
+  const [server, setServer] = useState('stack.dev.wazo.io');
+  const [error, setError] = useState('');
 
   const authenticate = async (username, password, server) => {
     try {
       Wazo.Auth.setHost(server);
 
-      session = await Wazo.Auth.logIn(username, password).catch();
-      session.server = server;
-      setSessionOnStorage(session);
+      const newSession = await Wazo.Auth.logIn(username, password).catch();
+      await SecureStore.setItemAsync('token', newSession.token);
+      await SecureStore.setItemAsync('firstname', newSession.profile.firstName);
+
     } catch (e) {
-      displayAuthError(e);
+      console.log('erreur', e);
     }
   };
 
-  const handleLogin = () => {
+  const logIn = async () => {
     authenticate(email, password, server);
-    setEmail('');
-    setPassword('');
-    setServer('');
+    const token = await SecureStore.getItemAsync('token');
+    if (token) {
+      handleLogin(true);
+      setEmail('');
+      setPassword('');
+      setServer('');
+   } else {
+      setError('authentication failed');
+   };
   };
 
-  return (
-    <View style={styles.container}>
+  return ( 
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
       <BackSunset style={styles.back} />
       <View style={styles.main}>
         <LogoSvg style={styles.logo} width={300} height={300} />
@@ -93,6 +103,7 @@ const Login = () => {
           <TextInput
             style={styles.inputs}
             onChangeText={setEmail}
+            value={email}
             placeholder='miguel@wazo.io'
             placeholderTextColor='#DAD9D9'
           />
@@ -100,6 +111,7 @@ const Login = () => {
           <TextInput
             style={styles.inputs}
             onChangeText={setPassword}
+            value={password}
             secureTextEntry={true}
             placeholder='****'
             placeholderTextColor='#DAD9D9'
@@ -108,15 +120,17 @@ const Login = () => {
           <TextInput
             style={styles.inputs}
             onChangeText={setServer}
+            value={server}
             placeholder='server.wazo.io'
             placeholderTextColor='#DAD9D9'
           />
         </View>
-        <Pressable onPress={handleLogin} style={styles.submit}>
+        <Pressable onPress={logIn} style={styles.submit}>
           <Text style={styles.submitText}>login</Text>
         </Pressable>
+        {/* <Text>{error}</Text> */}
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
