@@ -34,7 +34,7 @@ const App = () => {
   } else if (logged === true) {
     return (
       <View style={styles.app}>
-        <Home />
+        <Home handleLogout={setLogged} />
         <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
       </View>
     );

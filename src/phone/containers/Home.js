@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
+import Wazo from '@wazo/sdk/lib/simple';
 import {
   View,
   TextInput,
@@ -63,17 +64,41 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 10
+  },
+  logout: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    backgroundColor: '#FA3535',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
 
-const Home = () => {
+const Home = ({ handleLogout }) => {
   const [name, setName] = useState('');
 
   const getName = async () => {
     const userName = await SecureStore.getItemAsync('firstname');
     setName(userName)
-    console.log(name);
-  } 
+  };
+  
+  const logoutUser = async () => {
+    try {
+      await Wazo.Auth.logout();
+
+      await SecureStore.deleteItemAsync('token', newSession.token);
+      await SecureStore.deleteItemAsync('firstname', newSession.profile.firstName);
+
+    } catch (e) {
+      console.log('error:', e);
+    }
+  }
+
+  const logOut = () => {
+    logoutUser();
+    handleLogout(false);
+  };
 
   useEffect(() => {
     getName();
@@ -84,6 +109,11 @@ const Home = () => {
     <View style={styles.main}>
       {/* <Incoming /> */}
       <BackDay style={styles.back} />
+      <View>
+        <Pressable onPress={logOut} style={styles.logout}>
+          <Ionicons size={25} name='power' color='#fff' />
+        </Pressable>
+      </View>
       <View style={styles.container}>
         <Text style={styles.welcome}>Hello {name}</Text>
         <TextInput style={styles.input} keyboardType='numeric' placeholderTextColor='#DAD9D9' placeholder='Type a number' />

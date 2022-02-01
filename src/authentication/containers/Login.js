@@ -85,9 +85,6 @@ const Login = ({ handleLogin }) => {
     const token = await SecureStore.getItemAsync('token');
     if (token) {
       handleLogin(true);
-      setEmail('');
-      setPassword('');
-      setServer('');
    } else {
       setError('authentication failed');
    };
