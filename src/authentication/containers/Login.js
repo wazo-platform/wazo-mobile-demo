@@ -7,6 +7,7 @@ import LogoSvg from '../../assets/white-logo-vertical.svg';
 import BackSunset from '../../assets/back-sunset.svg';
 
 Wazo.Auth.init('wazo-mobile-demo');
+const isIOS = Platform.OS === 'ios';
 
 const styles = StyleSheet.create({
   back: {
@@ -76,8 +77,8 @@ const Login = ({ handleLogin }) => {
       await SecureStore.setItemAsync('firstname', newSession.profile.firstName);
 
     } catch (e) {
-      console.log('erreur', e);
-    }
+      console.log(e);
+    };
   };
 
   const logIn = async () => {
@@ -86,12 +87,12 @@ const Login = ({ handleLogin }) => {
     if (token) {
       handleLogin(true);
    } else {
-      setError('authentication failed');
+      setError('authentication failed, please try again');
    };
   };
 
   return ( 
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+    <KeyboardAvoidingView behavior={isIOS ? "padding" : "height"} style={styles.container}>
       <BackSunset style={styles.back} />
       <View style={styles.main}>
         <LogoSvg style={styles.logo} width={300} height={300} />
@@ -119,13 +120,14 @@ const Login = ({ handleLogin }) => {
             onChangeText={setServer}
             value={server}
             placeholder='server.wazo.io'
+            keyboardType={isIOS ? 'url' : 'email-address'}
             placeholderTextColor='#DAD9D9'
           />
         </View>
         <Pressable onPress={logIn} style={styles.submit}>
           <Text style={styles.submitText}>login</Text>
         </Pressable>
-        {/* <Text>{error}</Text> */}
+        <Text>{error}</Text>
       </View>
     </KeyboardAvoidingView>
   );

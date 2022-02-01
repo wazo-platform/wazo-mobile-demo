@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   back: {
     position: 'absolute',
@@ -32,7 +31,8 @@ const styles = StyleSheet.create({
   container: {
     width: 400,
     height: 400,
-    borderRadius: 20
+    borderRadius: 20,
+    justifyContent: 'center'
   },
   welcome: {
     fontSize: 30,
@@ -72,23 +72,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#FA3535',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  logoutDisplay: {
+    alignSelf: 'flex-end',
+    marginRight: 40,
+    paddingTop: 50
   }
 });
 
 const Home = ({ handleLogout }) => {
-  const [name, setName] = useState('');
+  const [displayName, setName] = useState('');
 
   const getName = async () => {
-    const userName = await SecureStore.getItemAsync('firstname');
-    setName(userName)
+    const firstName = await SecureStore.getItemAsync('firstname');
+    setName(firstName)
   };
   
   const logoutUser = async () => {
     try {
       await Wazo.Auth.logout();
 
-      await SecureStore.deleteItemAsync('token', newSession.token);
-      await SecureStore.deleteItemAsync('firstname', newSession.profile.firstName);
+      await SecureStore.deleteItemAsync('token');
+      await SecureStore.deleteItemAsync('firstname');
 
     } catch (e) {
       console.log('error:', e);
@@ -109,13 +114,13 @@ const Home = ({ handleLogout }) => {
     <View style={styles.main}>
       {/* <Incoming /> */}
       <BackDay style={styles.back} />
-      <View>
+      <View style={styles.logoutDisplay}>
         <Pressable onPress={logOut} style={styles.logout}>
           <Ionicons size={25} name='power' color='#fff' />
         </Pressable>
       </View>
       <View style={styles.container}>
-        <Text style={styles.welcome}>Hello {name}</Text>
+        <Text style={styles.welcome}>Hello {displayName}</Text>
         <TextInput style={styles.input} keyboardType='numeric' placeholderTextColor='#DAD9D9' placeholder='Type a number' />
         <View style={styles.buttons}>
           <Pressable style={styles.button}>
