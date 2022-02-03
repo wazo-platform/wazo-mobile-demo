@@ -80,12 +80,12 @@ const styles = StyleSheet.create({
   }
 });
 
-const Home = ({ handleLogout }) => {
-  const [displayName, setName] = useState('');
+const Home = ({ handleLogin }) => {
+  const [displayName, setDisplayName] = useState('');
 
   const getName = async () => {
     const firstName = await SecureStore.getItemAsync('firstname');
-    setName(firstName)
+    setDisplayName(firstName)
   };
   
   const logoutUser = async () => {
@@ -102,12 +102,12 @@ const Home = ({ handleLogout }) => {
 
   const logOut = () => {
     logoutUser();
-    handleLogout(false);
+    handleLogin(false);
   };
 
   useEffect(() => {
     getName();
-  });
+  }, []);
 
   return (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -116,18 +116,18 @@ const Home = ({ handleLogout }) => {
       <BackDay style={styles.back} />
       <View style={styles.logoutDisplay}>
         <Pressable onPress={logOut} style={styles.logout}>
-          <Ionicons size={25} name='power' color='#fff' />
+          <Ionicons size={25} name="power" color="#fff" />
         </Pressable>
       </View>
       <View style={styles.container}>
         <Text style={styles.welcome}>Hello {displayName}</Text>
-        <TextInput style={styles.input} keyboardType='numeric' placeholderTextColor='#DAD9D9' placeholder='Type a number' />
+        <TextInput style={styles.input} keyboardType="numeric" placeholderTextColor="#DAD9D9" placeholder="Type a number" />
         <View style={styles.buttons}>
           <Pressable style={styles.button}>
-            <Ionicons size={35} name='call' />
+            <Ionicons size={35} name="call" />
           </Pressable>
           <Pressable style={styles.button}>
-            <Ionicons size={35} name='videocam' />
+            <Ionicons size={35} name="videocam" />
           </Pressable>
         </View>
       </View>

@@ -24,21 +24,21 @@ const styles = StyleSheet.create({
 const App = () => {
   const [logged, setLogged] = useState(false);
 
-  if (logged === false) {
+  if (logged) {
     return (
       <View style={styles.app}>
-        <Login handleLogin={setLogged} />
-        <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
-      </View>
+      <Home handleLogin={setLogged} />
+      <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
+    </View>
     );
-  } else if (logged === true) {
-    return (
-      <View style={styles.app}>
-        <Home handleLogout={setLogged} />
-        <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
-      </View>
-    );
-  }; 
+  };
+
+  return (
+    <View style={styles.app}>
+      <Login handleLogin={setLogged} />
+      <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
+    </View>
+  ); 
 };
 
 export default App;

@@ -72,17 +72,18 @@ const Login = ({ handleLogin }) => {
     try {
       Wazo.Auth.setHost(server);
 
-      const newSession = await Wazo.Auth.logIn(username, password).catch();
+      const newSession = await Wazo.Auth.logIn(username, password);
       await SecureStore.setItemAsync('token', newSession.token);
       await SecureStore.setItemAsync('firstname', newSession.profile.firstName);
 
     } catch (e) {
       console.log(e);
+      setError(e);
     };
   };
 
   const logIn = async () => {
-    authenticate(email, password, server);
+    await authenticate(email, password, server);
     const token = await SecureStore.getItemAsync('token');
     if (token) {
       handleLogin(true);
@@ -92,7 +93,7 @@ const Login = ({ handleLogin }) => {
   };
 
   return ( 
-    <KeyboardAvoidingView behavior={isIOS ? "padding" : "height"} style={styles.container}>
+    <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={styles.container}>
       <BackSunset style={styles.back} />
       <View style={styles.main}>
         <LogoSvg style={styles.logo} width={300} height={300} />
@@ -102,8 +103,8 @@ const Login = ({ handleLogin }) => {
             style={styles.inputs}
             onChangeText={setEmail}
             value={email}
-            placeholder='miguel@wazo.io'
-            placeholderTextColor='#DAD9D9'
+            placeholder="miguel@wazo.io"
+            placeholderTextColor="#DAD9D9"
           />
           <Text style={styles.labels}>password</Text>
           <TextInput
@@ -111,8 +112,8 @@ const Login = ({ handleLogin }) => {
             onChangeText={setPassword}
             value={password}
             secureTextEntry={true}
-            placeholder='****'
-            placeholderTextColor='#DAD9D9'
+            placeholder="****"
+            placeholderTextColor="#DAD9D9"
           />
           <Text style={styles.labels}>server domain name</Text>
           <TextInput
@@ -121,13 +122,13 @@ const Login = ({ handleLogin }) => {
             value={server}
             placeholder='server.wazo.io'
             keyboardType={isIOS ? 'url' : 'email-address'}
-            placeholderTextColor='#DAD9D9'
+            placeholderTextColor="#DAD9D9"
           />
         </View>
         <Pressable onPress={logIn} style={styles.submit}>
           <Text style={styles.submitText}>login</Text>
         </Pressable>
-        <Text>{error}</Text>
+        {error && (<Text>{error}</Text>)}
       </View>
     </KeyboardAvoidingView>
   );
