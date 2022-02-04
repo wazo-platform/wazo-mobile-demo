@@ -11,35 +11,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 import background from '../../assets/day.png';
 
-const actions = [
-  {
-    name: 'add',
-    icon: <Ionicons name='add-outline' size={50}/>
-  },
-  {
-    name: 'hold',
-    icon: <Ionicons name='play-outline' size={40}/>,
-    alt: <Ionicons name='pause-outline' size={50}/>
-  },
-  {
-    name: 'speaker',
-    icon: <Ionicons name='volume-high' size={40}/>
-  },
-  {
-    name: 'mute',
-    icon: <Ionicons name='mic-outline' size={50}/>,
-    alt: <Ionicons name='mic-off-outline' size={50}/>
-  },
-  {
-    name: 'keys',
-    icon: <Ionicons name='apps-outline' size={40}/>
-  },
-  {
-    name: 'transfer',
-    icon: <Ionicons name='arrow-forward' size={50}/>
-  }
-];
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -63,7 +34,22 @@ const styles = StyleSheet.create({
   },
   action: {
     margin: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#1CBC49',
+    borderStyle: 'solid',
+    borderColor: '#fff',
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+    width: 60,
+    height: 60
+  },
+  actionOff: {
+    margin: 10,
+    backgroundColor: 'rgba(77, 77, 77, 0.33)',
+    borderStyle: 'solid',
+    borderColor: '#fff',
+    borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 100,
@@ -90,17 +76,9 @@ const styles = StyleSheet.create({
 
 const Call = () => {
   const [mute, setMute] = useState(false);
-  const [hold, setHold] = useState(false);
-  const [speaker, setSpeaker] = useState(false);
 
-  const handleActions = ( name ) => {
-    if (name === 'mute') {
-      setMute(!mute);
-    } else if (name === 'hold') {
-      setHold(!hold);
-    } else if (name === 'speaker') {
-      setSpeaker(!speaker);
-    }
+  const handleMute = () => {
+    setMute(!mute);
   };
 
   return (
@@ -110,14 +88,11 @@ const Call = () => {
           <Text style={styles.callee}>Johnny Monnay</Text>
           <Text style={styles.timer}>03:14</Text>
         </View>
-        <FlatList
-          data={actions}
-          renderItem={({ item }) => (
-            <Pressable style={styles.action}>{item.icon}</Pressable>
-          )}
-          numColumns={3}
-          keyExtractor={(item, index) => index.toString()}
-        />
+        <View>
+          <Pressable style={mute ? styles.actionOff : styles.action } onPress={handleMute} >
+            {mute ? <Ionicons color='#fff' size={45} name='mic-off-outline' /> : <Ionicons color="#fff" size={45} name="mic-outline" /> }
+          </Pressable>
+        </View>
         <Pressable style={styles.hangup}>
           <Ionicons 
             name='call' 

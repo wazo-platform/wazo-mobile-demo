@@ -128,7 +128,7 @@ const Login = ({ handleLogin }) => {
         <Pressable onPress={logIn} style={styles.submit}>
           <Text style={styles.submitText}>login</Text>
         </Pressable>
-        {error && (<Text>{error}</Text>)}
+        {error ? <Text>{error}</Text> : null}
       </View>
     </KeyboardAvoidingView>
   );

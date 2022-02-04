@@ -1,7 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import * as SecureStore from 'expo-secure-store';
-import Wazo from '@wazo/sdk/lib/simple';
 import { StyleSheet, Text, View } from 'react-native';
 
 import Login from './src/authentication/containers/Login';
@@ -27,9 +24,10 @@ const App = () => {
   if (logged) {
     return (
       <View style={styles.app}>
-      <Home handleLogin={setLogged} />
-      <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
-    </View>
+        <Home handleLogin={setLogged} />
+        {/* <Call /> */}
+        <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
+      </View>
     );
   };
 
