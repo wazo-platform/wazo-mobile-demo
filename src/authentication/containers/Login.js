@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import { TextInput, Text, Pressable, StyleSheet, View, KeyboardAvoidingView } from 'react-native';
+import { TextInput, Text, Pressable, StyleSheet, View, KeyboardAvoidingView, Keyboard } from 'react-native';
 import Wazo from '@wazo/sdk/lib/simple';
 
 import LogoSvg from '../../assets/white-logo-vertical.svg';
 import BackSunset from '../../assets/back-sunset.svg';
+import { TouchableWithoutFeedback } from 'react-native-web';
 
 Wazo.Auth.init('wazo-mobile-demo');
 const isIOS = Platform.OS === 'ios';
@@ -58,6 +59,15 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
     fontSize: 20,
+  },
+  errorContainer: {
+    backgroundColor: '#fff',
+    padding: 10,
+    marginTop: 20,
+    borderRadius: 50
+  },
+  error: {
+    color: 'red'
   }
 });
 
@@ -76,21 +86,17 @@ const Login = ({ handleLogin }) => {
       await SecureStore.setItemAsync('firstname', newSession.profile.firstName);
 
     } catch (e) {
-      console.log(e);
-      setError(e);
+      const error = JSON.parse(e.message);
+      const errorMessage = error.reason[0];
+      setError(errorMessage);
     };
   };
 
   const logIn = async () => {
-    try {
       await authenticate(email, password, server);
-      const token = await SecureStore.getItemAsync('token');
-      if (token) {
+      if (!error) {
         handleLogin(true);
-      }
-    } catch (e) {
-      setError(e);
-    }
+      };
   };
 
   return ( 
@@ -106,6 +112,7 @@ const Login = ({ handleLogin }) => {
             value={email}
             placeholder="miguel@wazo.io"
             placeholderTextColor="#DAD9D9"
+            autoCapitalize="none"
           />
           <Text style={styles.labels}>password</Text>
           <TextInput
@@ -124,12 +131,18 @@ const Login = ({ handleLogin }) => {
             placeholder='server.wazo.io'
             keyboardType={isIOS ? 'url' : 'email-address'}
             placeholderTextColor="#DAD9D9"
+            autoCapitalize="none"
           />
         </View>
         <Pressable onPress={logIn} style={styles.submit}>
           <Text style={styles.submitText}>login</Text>
         </Pressable>
-        {error ? <Text>{error}</Text> : null}
+        {error ?
+          <View style={styles.errorContainer}>
+            <Text style={styles.error}>{error}</Text>
+
+          </View>
+        : null}
       </View>
     </KeyboardAvoidingView>
   );
