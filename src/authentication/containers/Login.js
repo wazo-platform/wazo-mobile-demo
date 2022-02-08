@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  form: {},
   labels: {
     textTransform: 'uppercase',
     color: '#fff',
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
     fontSize: 20,
-  },
+  }
 });
 
 const Login = ({ handleLogin }) => {
@@ -83,13 +82,15 @@ const Login = ({ handleLogin }) => {
   };
 
   const logIn = async () => {
-    await authenticate(email, password, server);
-    const token = await SecureStore.getItemAsync('token');
-    if (token) {
-      handleLogin(true);
-   } else {
-      setError('authentication failed, please try again');
-   };
+    try {
+      await authenticate(email, password, server);
+      const token = await SecureStore.getItemAsync('token');
+      if (token) {
+        handleLogin(true);
+      }
+    } catch (e) {
+      setError(e);
+    }
   };
 
   return ( 
