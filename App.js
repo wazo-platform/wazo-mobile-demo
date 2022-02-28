@@ -1,42 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
-import Login from './src/authentication/containers/Login';
-import Home from './src/phone/containers/Home';
-import Call from './src/phone/containers/Call';
+import Login from './src/Login';
+import Dialer from './src/Dialer';
 
-const styles = StyleSheet.create({
-  app: {
-    flex: 1
-  },
-  credits: {
-    color: '#DAD9D9',
-    position: 'absolute',
-    bottom: 20,
-    left: 130,
-    fontSize: 10
-  } 
-});
+const defaultUsername = '';
+const defaultServer = 'demo.wazo.community';
 
 const App = () => {
-  const [logged, setLogged] = useState(false);
+  const [session, setSession] = useState(null);
 
-  if (logged) {
-    return (
-      <View style={styles.app}>
-        <Home handleLogin={setLogged} />
-        {/* <Call /> */}
-        <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
-      </View>
-    );
-  };
+  if (!session) {
+    return <Login defaultServer={defaultServer} defaultUsername={defaultUsername} onLogin={setSession} />
+  }
 
-  return (
-    <View style={styles.app}>
-      <Login handleLogin={setLogged} />
-      <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
-    </View>
-  ); 
+  return <Dialer onLogout={() => setSession(null)} />
 };
 
 export default App;
