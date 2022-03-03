@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 50,
-    backgroundColor: '#95CB39',
+    backgroundColor: '#95cb39',
     width: 150,
     height: 50
   },
@@ -58,6 +58,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fc3503',
   },
+  credit: {
+    textAlign: 'center',
+    color: '#fff'
+  }
 });
 
 const Login = ({ defaultUsername = '', defaultPassword = '', defaultServer = '', onLogin = () => {} }) => {
@@ -206,6 +210,7 @@ const Login = ({ defaultUsername = '', defaultPassword = '', defaultServer = '',
           </Button>
         </Box>
       </Container>
+      <Text style={styles.credit}>images created by jcomp</Text>
     </NativeBaseProvider>
   );
 };

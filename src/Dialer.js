@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: 60,
     height: 60,
-    backgroundColor: '#95CB39'
+    backgroundColor: '#95cb39'
   },
   logout: {
     marginTop: 50,
@@ -89,6 +89,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
   },
+  credit: {
+    textAlign: 'center',
+    color: '#fff'
+  }
 });
 
 const isIOS = Platform.OS === 'ios';
@@ -416,6 +420,7 @@ const Dialer = ({ onLogout }) => {
           </Button>
         </Box>
       </Container>
+      <Text style={styles.credit}>images created by jcomp</Text>
     </NativeBaseProvider>
   );
 };
