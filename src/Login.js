@@ -9,9 +9,17 @@ import getApiClient from '@wazo/sdk/lib/service/getApiClient';
 const isIOS = Platform.OS === 'ios';
 
 const styles = StyleSheet.create({
+  back: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 16,
+    bottom: 0
+  },
   container: {
     flex: 1,
     alignItems: 'center',
+    alignSelf: 'center',
     justifyContent: 'center'
   },
   logoContainer: {
@@ -20,12 +28,30 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200
   },
+  form: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: 300
+  },
   button: {
-    marginTop: 50
+    marginTop: 50,
+    backgroundColor: '#95CB39',
+    width: 150,
+    height: 50
+  },
+  login: {
+    fontSize: 20,
+    textTransform: 'uppercase',
+    fontWeight: 'bold'
   },
   footer: {
     borderColor: 'transparent',
     backgroundColor: 'transparent',
+  },
+  spinner: {
+    margin: 10
   },
   error: {
     marginTop: 10,
@@ -122,19 +148,22 @@ const Login = ({ defaultUsername = '', defaultPassword = '', defaultServer = '',
 
   return (
     <NativeBaseProvider>
+      <Image
+        style={styles.back}
+        source={require('./assets/dawn.png')}
+      />
       <Container style={styles.container}>
-        <View>
+        <View style={styles.form}>
           <View style={styles.logoContainer}>
-            <Text>ADD LOGO</Text>
-            {/* <Image
+            <Image
               style={styles.logo}
-              source={require('./assets/white-logo-vertical.svg')}
-            /> */}
+              source={require('./assets/wazo-platform-square-dark.png')}
+            />
           </View>
 
           <FormControl>
           <Stack>
-            <FormControl.Label>Username</FormControl.Label>
+            <FormControl.Label style={styles.label}>Username</FormControl.Label>
             <Input
               autoCapitalize="none"
               autoCorrect={false}
@@ -144,7 +173,7 @@ const Login = ({ defaultUsername = '', defaultPassword = '', defaultServer = '',
             />
           </Stack>
           <Stack>
-            <FormControl.Label>Password</FormControl.Label>
+            <FormControl.Label style={styles.label}>Password</FormControl.Label>
             <Input
               autoCapitalize="none"
               autoCorrect={false}
@@ -155,7 +184,7 @@ const Login = ({ defaultUsername = '', defaultPassword = '', defaultServer = '',
             />
           </Stack>
           <Stack>
-            <FormControl.Label>Server</FormControl.Label>
+            <FormControl.Label style={styles.label}>Server</FormControl.Label>
             <Input
               autoCapitalize="none"
               autoCorrect={false}
@@ -167,13 +196,13 @@ const Login = ({ defaultUsername = '', defaultPassword = '', defaultServer = '',
           </Stack>
           </FormControl>
 
-          {authenticating && <Spinner color="blue" />}
+          {authenticating && <Spinner style={styles.spinner} color="#95CB39" />}
           {!!error && <Text full style={styles.error}>{error}</Text>}
         </View>
 
         <Box style={styles.footer}>
           <Button full disabled={authenticating} onPress={login} style={styles.button}>
-            <Text>Login</Text>
+            <Text style={styles.login}>Login</Text>
           </Button>
         </Box>
       </Container>

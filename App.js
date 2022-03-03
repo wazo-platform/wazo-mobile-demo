@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NativeBaseProvider } from 'native-base';
 
 import Login from './src/Login';
 import Dialer from './src/Dialer';
@@ -8,12 +9,12 @@ const defaultServer = 'demo.wazo.community';
 
 const App = () => {
   const [session, setSession] = useState(null);
-
+  
   if (!session) {
-    return <Login defaultServer={defaultServer} defaultUsername={defaultUsername} onLogin={setSession} />
+    return <NativeBaseProvider><Login defaultServer={defaultServer} defaultUsername={defaultUsername} onLogin={setSession} /></NativeBaseProvider>
   }
 
-  return <Dialer onLogout={() => setSession(null)} />
+  return <NativeBaseProvider><Dialer onLogout={() => setSession(null)} /></NativeBaseProvider>
 };
 
 export default App;

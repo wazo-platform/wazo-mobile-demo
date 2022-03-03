@@ -1,13 +1,12 @@
 import React, { useReducer, useEffect } from 'react';
-import { StyleSheet, Text, View, Dimensions, Platform } from 'react-native';
+import { StyleSheet, Text, Image, View, Dimensions, Platform } from 'react-native';
 import RNCallKeep from 'react-native-callkeep';
 import ramdomUuid from 'uuid-random';
-import {Container, Content, FormControl, Input, Box, Button, Stack, NativeBaseProvider } from 'native-base';
+import { Container, FormControl, Input, Box, Button, Stack, NativeBaseProvider } from 'native-base';
 import { RTCPeerConnection, RTCSessionDescription, MediaStream, mediaDevices, RTCView } from 'react-native-webrtc';
 import Wazo from '@wazo/sdk/lib/simple';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Polyfill WebRTC
 global.MediaStream = MediaStream;
 global.RTCSessionDescription = RTCSessionDescription;
 global.RTCPeerConnection = RTCPeerConnection;
@@ -17,6 +16,13 @@ global.navigator.mediaDevices = {
 };
 
 const styles = StyleSheet.create({
+  back: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 16,
+    bottom: 0
+  },
   content: {
     flex: 1,
     position: 'relative',
@@ -77,7 +83,6 @@ const initialState = {
   remoteStreamURL: null,
 };
 
-// Can't be put in react state or it won't be updated in callkeep events.
 let currentSession;
 
 const Dialer = ({ onLogout }) => {
@@ -253,28 +258,23 @@ const Dialer = ({ onLogout }) => {
   };
 
   const onAnswerCallAction = ({ callUUID }) => {
-    // called when the user answer the incoming call
     answer(true);
 
     RNCallKeep.setCurrentCallActive(callUUID);
 
-    // On Android display the app when answering a video call
     if (!isIOS && currentSession.cameraEnabled) {
       RNCallKeep.backToForeground();
     }
   };
 
   const onIncomingCallDisplayed = ({ callUUID, handle, fromPushKit }) => {
-    // Incoming call displayed (used for pushkit on iOS)
   };
 
   const onNativeCall = ({ handle }) => {
-    // _onOutGoingCall on android is also called when making a call from the app
-    // so we have to check in order to not making 2 calls
     if (inCall) {
       return;
     }
-    // Called when performing call from native Contact app
+
     call(handle);
   };
 
@@ -319,12 +319,17 @@ const Dialer = ({ onLogout }) => {
 
   return (
     <NativeBaseProvider>
+      <Image
+        style={styles.back}
+        source={require('./assets/day.png')}
+      />
       <Container style={styles.content}>
         {!isIOS && localStreamURL && (<RTCView mirror streamURL={localStreamURL} style={styles.localVideo} zOrder={1} />)}
 
         {remoteStreamURL && <RTCView objectFit="cover" streamURL={remoteStreamURL} style={styles.remoteVideo} zOrder={15} />}
-
-        <Content style={styles.content}>
+   
+        
+        <Box style={styles.content}>
           <FormControl style={styles.form}>
           <Stack>
             <FormControl.Label>Extension</FormControl.Label>
@@ -346,6 +351,7 @@ const Dialer = ({ onLogout }) => {
               </Button>
             </View>
           )}
+
           {ringing && (
             <View style={styles.buttonsContainer}>
               <Button onPress={() => answer(false)} style={styles.button}>
@@ -376,8 +382,10 @@ const Dialer = ({ onLogout }) => {
               )}
             </View>
           )}
-        </Content>
+        </Box>
+
         {isIOS && localStreamURL && (<RTCView mirror streamURL={localStreamURL} style={styles.localVideo} zOrder={1} />)}
+        
         <Box>
           <Button transparent onPress={logout}>
             <Text>Logout</Text>
