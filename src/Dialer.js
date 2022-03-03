@@ -4,6 +4,7 @@ import RNCallKeep from 'react-native-callkeep';
 import ramdomUuid from 'uuid-random';
 import { Container, FormControl, Input, Box, Button, Stack, NativeBaseProvider } from 'native-base';
 import { RTCPeerConnection, RTCSessionDescription, MediaStream, mediaDevices, RTCView } from 'react-native-webrtc';
+import { Ionicons } from '@expo/vector-icons';
 import Wazo from '@wazo/sdk/lib/simple';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -25,24 +26,46 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    position: 'relative',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  main: {
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   form: {
     backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
+  welcome: {
+    fontSize: 25,
+    fontWeight: 'bold'
   },
   buttonsContainer: {
-    flex: 1,
     paddingHorizontal: 10,
     flexDirection: 'row',
   },
   button: {
     margin: 10,
-    flex: 1,
     alignItems: 'center',
     textAlign: 'center',
+    borderRadius: 100,
+    width: 60,
+    height: 60,
+    backgroundColor: '#95CB39'
+  },
+  logout: {
+    marginTop: 50,
+    backgroundColor: 'red'
+  },
+  logoutText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    textTransform: 'uppercase'
   },
   centeredText: {
-    flex: 1,
     alignItems: 'center',
     textAlign: 'center',
   },
@@ -329,10 +352,11 @@ const Dialer = ({ onLogout }) => {
         {remoteStreamURL && <RTCView objectFit="cover" streamURL={remoteStreamURL} style={styles.remoteVideo} zOrder={15} />}
    
         
-        <Box style={styles.content}>
+        <Box style={styles.main}>
           <FormControl style={styles.form}>
+            <Text style={styles.welcome}>Hello Miguel 👋</Text>
           <Stack>
-            <FormControl.Label>Extension</FormControl.Label>
+            <FormControl.Label>Dial the extension you want to reach</FormControl.Label>
             <Input
               autoCapitalize="none"
               onChangeText={value => dispatch({ number: value })}
@@ -344,10 +368,10 @@ const Dialer = ({ onLogout }) => {
           {!ringing && !inCall && (
             <View style={styles.buttonsContainer}>
               <Button block disabled={!ready} onPress={() => call(number, false)} style={styles.button}>
-                <Text>Call</Text>
+                <Ionicons name="call" size={25} />
               </Button>
               <Button block disabled={!ready} onPress={() => call(number, true)} style={styles.button}>
-                <Text>Video call</Text>
+              <Ionicons name="videocam" size={25} />
               </Button>
             </View>
           )}
@@ -387,8 +411,8 @@ const Dialer = ({ onLogout }) => {
         {isIOS && localStreamURL && (<RTCView mirror streamURL={localStreamURL} style={styles.localVideo} zOrder={1} />)}
         
         <Box>
-          <Button transparent onPress={logout}>
-            <Text>Logout</Text>
+          <Button transparent onPress={logout} style={styles.logout}>
+            <Text style={styles.logoutText}>Logout</Text>
           </Button>
         </Box>
       </Container>
