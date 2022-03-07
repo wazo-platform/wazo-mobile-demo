@@ -1,10 +1,23 @@
 import React, { useReducer, useEffect } from 'react';
-import { StyleSheet, Text, Image, View, Dimensions, Platform } from 'react-native';
+import {
+  StyleSheet, Text, Image, View, Dimensions, Platform,
+} from 'react-native';
 import RNCallKeep from 'react-native-callkeep';
 import ramdomUuid from 'uuid-random';
-import { Container, FormControl, Input, Box, Button, Stack, NativeBaseProvider } from 'native-base';
-import { RTCPeerConnection, RTCSessionDescription, MediaStream, mediaDevices, RTCView } from 'react-native-webrtc';
 import { Ionicons } from '@expo/vector-icons';
+import {
+  Container,
+  FormControl,
+  Input,
+  Box,
+  Button,
+  Stack,
+  NativeBaseProvider,
+} from 'native-base';
+import {
+  RTCPeerConnection, RTCSessionDescription, MediaStream, mediaDevices, RTCView,
+} from 'react-native-webrtc';
+
 import Wazo from '@wazo/sdk/lib/simple';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -18,21 +31,21 @@ global.navigator.mediaDevices = {
 
 const styles = StyleSheet.create({
   back: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 16,
-    bottom: 0
+    bottom: 0,
   },
   content: {
     flex: 1,
     alignSelf: 'center',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   main: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   form: {
     backgroundColor: 'white',
@@ -41,7 +54,7 @@ const styles = StyleSheet.create({
   },
   welcome: {
     fontSize: 25,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   buttonsContainer: {
     paddingHorizontal: 10,
@@ -54,16 +67,16 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: 60,
     height: 60,
-    backgroundColor: '#95cb39'
+    backgroundColor: '#95cb39',
   },
   logout: {
     marginTop: 50,
-    backgroundColor: 'red'
+    backgroundColor: 'red',
   },
   logoutText: {
     color: '#fff',
     fontWeight: 'bold',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   centeredText: {
     alignItems: 'center',
@@ -91,13 +104,13 @@ const styles = StyleSheet.create({
   },
   credit: {
     textAlign: 'center',
-    color: '#fff'
-  }
+    color: '#fff',
+  },
 });
 
 const isIOS = Platform.OS === 'ios';
 
-const reducer = (state, action) => ({ ...state, ...action});
+const reducer = (state, action) => ({ ...state, ...action });
 const initialState = {
   ready: false,
   number: '',
@@ -113,8 +126,10 @@ const initialState = {
 let currentSession;
 
 const Dialer = ({ onLogout }) => {
-  const [ state, dispatch ] = useReducer(reducer, initialState);
-  const { number, ringing, inCall, held, localStreamURL, remoteStreamURL, ready, videoHeld } = state;
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const {
+    number, ringing, inCall, held, localStreamURL, remoteStreamURL, ready, videoHeld,
+  } = state;
   let currentCallId;
   let localStream;
   let remoteStream;
@@ -127,74 +142,7 @@ const Dialer = ({ onLogout }) => {
     return currentCallId;
   };
 
-  const init = async () => {
-    await initializeWebRtc();
-    await initializeCallKeep();
-    displayLocalVideo();
-
-    dispatch({ ready: true });
-  };
-
-  const initializeWebRtc = async () => {
-    await Wazo.Phone.connect({ audio: true, video: true });
-
-    Wazo.Phone.on(Wazo.Phone.ON_CALL_INCOMING, callSession => {
-      setupCallSession(callSession);
-      currentSession = callSession;
-      dispatch({ ringing: true });
-
-      // Tell callkeep that we a call is incoming for audio calls
-      const { number } = callSession;
-      RNCallKeep.displayIncomingCall(getCurrentCallId(), number, number, 'number', true);
-    });
-  };
-
-  const initializeCallKeep = async () => {
-    try {
-      RNCallKeep.setup({
-      ios: {
-        appName: 'WazoReactNativeDemo',
-      },
-      android: {
-        alertTitle: 'Permissions required',
-        alertDescription: 'This application needs to access your phone accounts',
-        cancelButton: 'Cancel',
-        okButton: 'ok',
-      }
-    });
-      RNCallKeep.setAvailable(true);
-    } catch (err) {
-      console.error('initializeCallKeep error:', err.message);
-    }
-
-    // Add RNCallKit Events
-    RNCallKeep.addEventListener('didReceiveStartCallAction', onNativeCall);
-    RNCallKeep.addEventListener('answerCall', onAnswerCallAction);
-    RNCallKeep.addEventListener('endCall', onEndCallAction);
-    RNCallKeep.addEventListener('didDisplayIncomingCall', onIncomingCallDisplayed);
-    RNCallKeep.addEventListener('didPerformSetMutedCallAction', onToggleMute);
-    RNCallKeep.addEventListener('didPerformDTMFAction', onDTMF);
-  };
-
-  const getLocalStream = () => mediaDevices.getUserMedia({
-    audio: true,
-    video: {
-      mandatory: {
-        minWidth: 500,
-        minHeight: 300,
-        minFrameRate: 30
-      },
-      facingMode: 'user',
-    }
-  });
-
-  const displayLocalVideo = () => {
-    getLocalStream().then((stream) => {
-      dispatch({ localStreamURL: stream.toURL() });
-    });
-  };
-
-  const setupCallSession = callSession => {
+  const setupCallSession = (callSession) => {
     currentSession = callSession;
 
     Wazo.Phone.on(Wazo.Phone.ON_CALL_FAILED, (response, cause) => {
@@ -210,8 +158,8 @@ const Dialer = ({ onLogout }) => {
       // Setup local stream
       if (callSession.cameraEnabled) {
         const { peerConnection } = session.sessionDescriptionHandler;
-        localStream = peerConnection.getLocalStreams().find(stream => !!stream.getVideoTracks().length);
-        remoteStream = peerConnection.getRemoteStreams().find(stream => !!stream.getVideoTracks().length);
+        localStream = peerConnection.getLocalStreams().find((stream) => !!stream.getVideoTracks().length);
+        remoteStream = peerConnection.getRemoteStreams().find((stream) => !!stream.getVideoTracks().length);
 
         dispatch({
           localStreamURL: localStream ? localStream.toURL() : null,
@@ -235,7 +183,74 @@ const Dialer = ({ onLogout }) => {
     RNCallKeep.startCall(getCurrentCallId(), number, number, 'number', video);
   };
 
-  const answer = withVideo => {
+  const initializeWebRtc = async () => {
+    await Wazo.Phone.connect({ audio: true, video: true });
+
+    Wazo.Phone.on(Wazo.Phone.ON_CALL_INCOMING, (callSession) => {
+      setupCallSession(callSession);
+      currentSession = callSession;
+      dispatch({ ringing: true });
+
+      // Tell callkeep that we a call is incoming for audio calls
+      const { number } = callSession;
+      RNCallKeep.displayIncomingCall(getCurrentCallId(), number, number, 'number', true);
+    });
+  };
+
+  const init = async () => {
+    await initializeWebRtc();
+    await initializeCallKeep();
+    displayLocalVideo();
+
+    dispatch({ ready: true });
+  };
+
+  const initializeCallKeep = async () => {
+    try {
+      RNCallKeep.setup({
+        ios: {
+          appName: 'WazoReactNativeDemo',
+        },
+        android: {
+          alertTitle: 'Permissions required',
+          alertDescription: 'This application needs to access your phone accounts',
+          cancelButton: 'Cancel',
+          okButton: 'ok',
+        },
+      });
+      RNCallKeep.setAvailable(true);
+    } catch (err) {
+      console.error('initializeCallKeep error:', err.message);
+    }
+
+    // RNCallKit Events
+    RNCallKeep.addEventListener('didReceiveStartCallAction', onNativeCall);
+    RNCallKeep.addEventListener('answerCall', onAnswerCallAction);
+    RNCallKeep.addEventListener('endCall', onEndCallAction);
+    RNCallKeep.addEventListener('didDisplayIncomingCall', onIncomingCallDisplayed);
+    RNCallKeep.addEventListener('didPerformSetMutedCallAction', onToggleMute);
+    RNCallKeep.addEventListener('didPerformDTMFAction', onDTMF);
+  };
+
+  const getLocalStream = () => mediaDevices.getUserMedia({
+    audio: true,
+    video: {
+      mandatory: {
+        minWidth: 500,
+        minHeight: 300,
+        minFrameRate: 30,
+      },
+      facingMode: 'user',
+    },
+  });
+
+  const displayLocalVideo = () => {
+    getLocalStream().then((stream) => {
+      dispatch({ localStreamURL: stream.toURL() });
+    });
+  };
+
+  const answer = (withVideo) => {
     dispatch({ inCall: true, ringing: false });
     RNCallKeep.setCurrentCallActive();
 
@@ -354,19 +369,18 @@ const Dialer = ({ onLogout }) => {
         {!isIOS && localStreamURL && (<RTCView mirror streamURL={localStreamURL} style={styles.localVideo} zOrder={1} />)}
 
         {remoteStreamURL && <RTCView objectFit="cover" streamURL={remoteStreamURL} style={styles.remoteVideo} zOrder={15} />}
-   
-        
+
         <Box style={styles.main}>
           <FormControl style={styles.form}>
             <Text style={styles.welcome}>Hello Miguel 👋</Text>
-          <Stack>
-            <FormControl.Label>Dial the extension you want to reach</FormControl.Label>
-            <Input
-              autoCapitalize="none"
-              onChangeText={value => dispatch({ number: value })}
-              value={number}
-            />
-          </Stack>
+            <Stack>
+              <FormControl.Label>Dial the extension you want to reach</FormControl.Label>
+              <Input
+                autoCapitalize="none"
+                onChangeText={(value) => dispatch({ number: value })}
+                value={number}
+              />
+            </Stack>
           </FormControl>
 
           {!ringing && !inCall && (
@@ -375,7 +389,7 @@ const Dialer = ({ onLogout }) => {
                 <Ionicons name="call" size={25} />
               </Button>
               <Button block disabled={!ready} onPress={() => call(number, true)} style={styles.button}>
-              <Ionicons name="videocam" size={25} />
+                <Ionicons name="videocam" size={25} />
               </Button>
             </View>
           )}
@@ -384,13 +398,17 @@ const Dialer = ({ onLogout }) => {
             <View style={styles.buttonsContainer}>
               <Button onPress={() => answer(false)} style={styles.button}>
                 <Text style={styles.centeredText}>
-                  Answer audio call from {currentSession.number}
-                  </Text>
+                  Answer audio call from
+                  {' '}
+                  {currentSession.number}
+                </Text>
               </Button>
               <Button onPress={() => answer(true)} style={styles.button}>
                 <Text style={styles.centeredText}>
-                  Answer video call from {currentSession.number}
-                  </Text>
+                  Answer video call from
+                  {' '}
+                  {currentSession.number}
+                </Text>
               </Button>
             </View>
           )}
@@ -413,7 +431,7 @@ const Dialer = ({ onLogout }) => {
         </Box>
 
         {isIOS && localStreamURL && (<RTCView mirror streamURL={localStreamURL} style={styles.localVideo} zOrder={1} />)}
-        
+
         <Box>
           <Button transparent onPress={logout} style={styles.logout}>
             <Text style={styles.logoutText}>Logout</Text>
@@ -423,6 +441,6 @@ const Dialer = ({ onLogout }) => {
       <Text style={styles.credit}>images created by jcomp</Text>
     </NativeBaseProvider>
   );
-};
+}
 
 export default Dialer;

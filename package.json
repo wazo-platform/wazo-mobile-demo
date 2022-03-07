@@ -9,16 +9,19 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/vector-icons": "^12.0.5",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/cli-platform-ios": "^7.0.1",
     "@wazo/sdk": "^0.37.24",
-    "eslint": "^8.7.0",
+    "babel-eslint": "^10.1.0",
     "expo": "~43.0.2",
     "expo-blur": "~10.0.3",
     "expo-splash-screen": "~0.13.5",
     "expo-status-bar": "~1.1.0",
     "expo-updates": "~0.10.13",
+    "flow-bin": "^0.173.0",
     "native-base": "^3.3.7",
+    "prettier": "^2.5.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
@@ -35,7 +38,13 @@
     "uuid-random": "^1.3.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.3",
+    "eslint-plugin-react-hooks": "^4.3.0"
   },
   "private": true
 }
