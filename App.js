@@ -1,24 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { NativeBaseProvider } from 'native-base';
 
-import Login from "./src/authentication/containers/Login";
+import Login from './src/Login';
+import Dialer from './src/Dialer';
 
-const styles = StyleSheet.create({
-  credits: {
-    color: "#DAD9D9",
-    textAlign: "center",
-    marginTop: "20%",
-    fontSize: 10
-  } 
-})
+const defaultUsername = '';
+const defaultServer = 'stack.dev.wazo.io';
 
-export default function App() {
+function App() {
+  const [session, setSession] = useState(null);
+
   return (
-    <View>
-      <Login />
-      <StatusBar style="auto" />
-      <Text style={styles.credits}>images created by Jcomp (Freepik)</Text>
-    </View>
-  );
+    <NativeBaseProvider>
+      {session ? 
+        <Login
+          defaultServer={defaultServer}
+          defaultUsername={defaultUsername}
+          onLogin={setSession}
+        />
+        :
+        <Dialer onLogout={() => setSession(null)} />
+      }
+    </NativeBaseProvider>
+  )
 };
+
+export default App;

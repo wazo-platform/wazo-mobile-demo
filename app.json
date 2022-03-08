@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "wazo-mobile-demo",
+    "name": "Wazo Demo",
     "slug": "wazo-mobile-demo",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,16 +17,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "Demo.Ios"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "io.wazo.mobile.demo"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "packagerOpts": {
       "config": "metro.config.js",
