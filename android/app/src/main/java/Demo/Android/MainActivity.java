@@ -1,4 +1,4 @@
-package Demo.Android;
+package io.wazo.mobile.demo;
 
 import android.os.Bundle;
 

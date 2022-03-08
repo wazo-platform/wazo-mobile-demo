@@ -334,7 +334,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.wazomobiledemo;
+				PRODUCT_BUNDLE_IDENTIFIER = io.wazo.mobile.demo;
 				PRODUCT_NAME = wazomobiledemo;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;

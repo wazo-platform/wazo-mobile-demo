@@ -76,16 +76,14 @@ const Login = ({ defaultUsername = '', defaultPassword = '', defaultServer = '',
     init();
   }, []);
 
-  const init = async () => {
+  const init = () => {
 
     if (isIOS) {
       VoipPushNotification.addEventListener('register', async (token) => {
         apnsToken = token;
         console.log('setting apnsToken', apnsToken);
       });
-    } else {
-
-    }
+    } 
 
     authenticateFromToken();
   };
@@ -119,10 +117,8 @@ const Login = ({ defaultUsername = '', defaultPassword = '', defaultServer = '',
     Wazo.Auth.init();
     Wazo.Auth.setHost(server);
 
-    let session;
-
     try {
-      session = await Wazo.Auth.logIn(username, password);
+      const session = await Wazo.Auth.logIn(username, password);
       authenticationSuccess(session, server);
     } catch (e) {
       setError('Authentication failed');
@@ -136,7 +132,7 @@ const Login = ({ defaultUsername = '', defaultPassword = '', defaultServer = '',
 
     if (apnsToken) {
       try {
-         await getApiClient().auth.removeDeviceToken(session.uuid);
+         await Wazo.api.auth.removeDeviceToken(session.uuid);
       } catch (_) {
         // Avoid to fail when trying to remove a non-existent token
       }
